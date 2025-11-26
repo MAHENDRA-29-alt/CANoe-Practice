@@ -1,0 +1,21 @@
+variables
+{
+  message 0x7DF diagRequest;
+  message 0x7E8 diagResponse;
+}
+
+on start
+{
+  diagRequest.byte(0) = 0x02;
+  diagRequest.byte(1) = 0x10;
+  diagRequest.byte(2) = 0x01;
+
+  output(diagRequest);
+  write("UDS: Sent Diagnostic Session Control (0x10 01)");
+}
+
+on message 0x7E8
+{
+  write("UDS: Response Received -> %02X %02X %02X", 
+        this.byte(0), this.byte(1), this.byte(2));
+}
